@@ -1,0 +1,8 @@
+app_stat_homepage:
+    path:     /
+    defaults: { _controller: AppStatBundle:Default:index }
+    
+app_stat_async:
+    path:     /async
+    defaults: { _controller: "AppStatBundle:Default:async" }
+    methods: [GET]

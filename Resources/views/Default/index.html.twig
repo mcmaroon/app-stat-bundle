@@ -1,0 +1,77 @@
+{% extends "AppAppBundle::admin.html.twig" %}
+
+{% block javascriptsbody %}
+    {{ parent() }}   
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript">
+        if (typeof google === 'object') {
+            google.charts.load('current', {'packages': ['corechart']});
+        }
+    </script>
+
+    {% javascripts filter='cssrewrite' output='js/stat.js' '@AppStatBundle/Resources/public/js/app/stat.js' %}
+    <script src="{{ asset_url }}"  type="text/javascript"></script>
+    {% endjavascripts %}    
+
+    <script type="text/javascript">
+        var APP = APP || {};
+
+        if (typeof APP.stat === 'function') {
+
+            new APP.stat('#stat', {
+                url: '{{ path('app_stat_async') }}'
+            });
+
+        }
+
+    </script>
+{% endblock %}
+
+{% block body %}
+
+    <div class="page-header">
+        <h1>{{ ('adminmenu.home')|trans }}</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-24 col-sm-8">
+            <div class="well">
+                <form id="form-stat">
+
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">{{ ('filters.dateStart.label')|trans }}</span>
+                        <input type="text" name="filters[date_start]" class="form-control datepicker" id="dateStart" placeholder="" value="{% if filters['date_start'] is defined %}{{ filters['date_start'] }}{% endif %}">
+                    </div>
+
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">{{ ('filters.dateEnd.label')|trans }}</span>
+                        <input type="text" name="filters[date_end]" class="form-control datepicker" id="dateEnd" placeholder="" value="{% if filters['date_end'] is defined %}{{ filters['date_end'] }}{% endif %}">
+                    </div>
+
+                    <div id="form-stat-checkboxes">
+                        {% for type in types %}                
+                            <div class="checkbox">
+                                <label class="checkbox-inline">
+                                    <input name="filters[type][{{ type.type|raw|lower }}]" type="checkbox" value="{{ type.type }}" {% if filters['type'][type.type] is defined %}checked="checked"{% endif %}>
+                                    {{ ('stat.enum.'~ type.type)|trans }}
+                                </label>
+                            </div>
+                        {% endfor %}                   
+                    </div>
+
+                    <button type="submit" class="btn btn-sm btn-primary btn-block">{{ 'global.change'|trans }}</button>
+
+                </form>
+            </div>
+        </div>
+
+        <div class="col-xs-24 col-sm-16">
+            <div id="stat" class="stat"></div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
