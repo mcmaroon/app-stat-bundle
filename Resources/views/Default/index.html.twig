@@ -1,7 +1,9 @@
-{% extends "AppAppBundle::admin.html.twig" %}
+{% extends "@AppAppBundle/admin.html.twig" %}
 
 {% block javascriptsbody %}
-    {{ parent() }}   
+    {{ parent() }}
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -11,9 +13,7 @@
         }
     </script>
 
-    {% javascripts filter='cssrewrite' output='js/stat.js' '@AppStatBundle/Resources/public/js/app/stat.js' %}
-    <script src="{{ asset_url }}"  type="text/javascript"></script>
-    {% endjavascripts %}    
+    <script src="/bundles/appstat/js/app/stat.js"  type="text/javascript"></script>
 
     <script type="text/javascript">
         var APP = APP || {};
@@ -42,23 +42,31 @@
 
                     <div class="input-group">
                         <span class="input-group-addon" id="basic-addon1">{{ ('filters.dateStart.label')|trans }}</span>
-                        <input type="text" name="filters[date_start]" class="form-control datepicker" id="dateStart" placeholder="" value="{% if filters['date_start'] is defined %}{{ filters['date_start'] }}{% endif %}">
+                        <input type="text" name="filters[date_start]" class="form-control datepicker" id="dateStart"
+                               placeholder=""
+                               value="{% if filters['date_start'] is defined %}{{ filters['date_start'] }}{% endif %}">
                     </div>
 
                     <div class="input-group">
                         <span class="input-group-addon" id="basic-addon1">{{ ('filters.dateEnd.label')|trans }}</span>
-                        <input type="text" name="filters[date_end]" class="form-control datepicker" id="dateEnd" placeholder="" value="{% if filters['date_end'] is defined %}{{ filters['date_end'] }}{% endif %}">
+                        <input type="text" name="filters[date_end]" class="form-control datepicker" id="dateEnd"
+                               placeholder=""
+                               value="{% if filters['date_end'] is defined %}{{ filters['date_end'] }}{% endif %}">
                     </div>
 
                     <div id="form-stat-checkboxes">
-                        {% for type in types %}                
-                            <div class="checkbox">
-                                <label class="checkbox-inline">
-                                    <input name="filters[type][{{ type.type|raw|lower }}]" type="checkbox" value="{{ type.type }}" {% if filters['type'][type.type] is defined %}checked="checked"{% endif %}>
-                                    {{ ('stat.enum.'~ type.type)|trans }}
-                                </label>
-                            </div>
-                        {% endfor %}                   
+                        {% if types is defined %}
+                            {% for type in types %}
+                                <div class="checkbox">
+                                    <label class="checkbox-inline">
+                                        <input name="filters[type][{{ type.type|raw|lower }}]" type="checkbox"
+                                               value="{{ type.type }}"
+                                               {% if filters['type'][type.type] is defined %}checked="checked"{% endif %}>
+                                        {{ ('stat.enum.'~ type.type)|trans }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
                     </div>
 
                     <button type="submit" class="btn btn-sm btn-primary btn-block">{{ 'global.change'|trans }}</button>

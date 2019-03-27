@@ -22,7 +22,7 @@ class DefaultController extends Controller {
             $filters['date_start'] = $date->format('Y-m-d');
         }
 
-        return $this->render('AppStatBundle:Default:index.html.twig', array(
+        return $this->render('@AppStatBundle/Default/index.html.twig', array(
                     'filters' => $filters,
                     'types' => $types
         ));
@@ -40,7 +40,7 @@ class DefaultController extends Controller {
             'count' => 0
         );
 
-        $log = $this->get('app.log');
+        //$log = $this->get('app.log');
 
         $filters = (array) $request->query->get('filters', array());
 
@@ -71,10 +71,10 @@ class DefaultController extends Controller {
                         $groupName = (string) $objectKeyItem; // to string entity method
                     }
                 } catch (\Exception $exc) {
-                    $log->error('StatDefaultController', array(
+                    /*$log->error('StatDefaultController', array(
                         'code' => $exc->getCode(),
                         'message' => $exc->getMessage()
-                    ));
+                    ));*/
                 }
             }
 
