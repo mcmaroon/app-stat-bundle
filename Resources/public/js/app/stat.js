@@ -84,17 +84,18 @@
             // ~
 
             self.init = function () {
+                if ($(self.settings.formSelector).length) {
+                    self.formChangedCheck = $(self.settings.formSelector).serialize();
 
-                self.formChangedCheck = $(self.settings.formSelector).serialize();
+                    self.sendRequest();
 
-                self.sendRequest();
-
-                $(self.settings.formSelector).on('keyup change', 'input, select, textarea', function () {
-                    if (self.formChangedCheck !== $(self.settings.formSelector).serialize()) {
-                        self.formChangedCheck = $(self.settings.formSelector).serialize();
-                        self.sendRequest();
-                    }
-                });
+                    $(self.settings.formSelector).on('keyup change', 'input, select, textarea', function () {
+                        if (self.formChangedCheck !== $(self.settings.formSelector).serialize()) {
+                            self.formChangedCheck = $(self.settings.formSelector).serialize();
+                            self.sendRequest();
+                        }
+                    });
+                }
             };
 
             self.init();
