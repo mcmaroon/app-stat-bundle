@@ -1,5 +1,3 @@
-var APP = APP || {};
-
 (function ($) {
 
     if (typeof APP === 'object') {

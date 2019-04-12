@@ -1,7 +1,7 @@
 {% extends "@AppAppBundle/admin.html.twig" %}
 
 {% block javascriptsbody %}
-    {{ parent() }}
+
 
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
@@ -13,20 +13,8 @@
         }
     </script>
 
-    <script src="/bundles/appstat/js/app/stat.js"  type="text/javascript"></script>
+    {{ parent() }}
 
-    <script type="text/javascript">
-        var APP = APP || {};
-
-        if (typeof APP.stat === 'function') {
-
-            new APP.stat('#stat', {
-                url: '{{ path('app_stat_async') }}'
-            });
-
-        }
-
-    </script>
 {% endblock %}
 
 {% block body %}
